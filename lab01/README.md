@@ -9,9 +9,9 @@
 ## Índice
 1. [Introducción](#1-introducción)
 2. [Simulación](#2-simulación)
-   * [2.1 Parte 1: Compuertas Lógicas](#21-parte-1:-compuertas-lógicas)
-   * [2.2 Parte 2: Detector de Números Primos (3 bits)](#22-parte-2-detector-de-números-primos-3-bits)
-   * [2.3 Parte 3: Sumador Completo de 1 Bit](#23-parte-3-sumador-completo-de-1-bit)
+   * [2.1 Parte 1: Compuertas Lógicas](#2.1-parte-1-compuertas-lógicas)
+   * [2.2 Parte 2: Detector de Números Primos (3 bits)](#2.2-parte-2-detector-de-números-primos-3-bits)
+   * [2.3 Parte 3: Sumador Completo de 1 Bit](#2.3-parte-3-sumador-de-1-bit)
 3. [Evidencias](#3-evidencias)
 4. [Guías Interactivas](#4-guías-interactivas)
 5. [Conclusiones](#5-conclusiones)
@@ -63,7 +63,7 @@ Para la descripción e implementación digital en lenguajes de programación y d
 
 En este apartado se presenta la descripción en hardware mediante **Verilog** y la simulación funcional de los tres módulos requeridos.
 
-### 2.1 Parte 1: Compuertas Lógicas
+## #2.1 parte 1 compuertas lógicas
 Se realiza la descripción en Verilog de las compuertas lógicas mediante **primitivas** y **descripción estructural/comportamental**, mediante el uso de un test bench y apoyo con gtk wave comprobando su comportamiento frente a las tablas de verdad correspondientes, descritas en la seccion de introduccion.
 
 1. **Módulo de Compuertas (`ejercicio2_.v`)**
@@ -151,7 +151,7 @@ obteniendo asi el siguiente resultado:
 ![Gtk wave compuertas](./figs/gtkcompuertas.png)
 
 ---
-### 2.2 Parte 2: Detector de Números Primos
+## #2.2 parte 2 detector de números primos 3 bits
 
 En esta sección se diseña e implementa un circuito combinacional capaz de detectar si un número binario de 3 bits ($N = ABC, rango de $0$ a $7$) corresponde a un número primo. 
 
@@ -182,16 +182,23 @@ $$P = \bar{A}B\bar{C} + \bar{A}BC + A\bar{B}C + ABC$$
 Alineando e identificando términos comunes para la simplificación booleana:
 
 1. Factorizando $\bar{A}B$ de los primeros dos términos ($p_2$ y $p_3$):
+   
    $$\bar{A}B(\bar{C} + C) = \bar{A}B(1) = \bar{A}B$$
 
-2. Factorizando $AC$ de los últimos dos términos ($p_5$ y $p_7$):
+3. Factorizando $AC$ de los últimos dos términos ($p_5$ y $p_7$):
+   
    $$AC(\bar{B} + B) = AC(1) = AC$$
 
 **Ecuación Simplificada Resultante:**
 
 $$P = \bar{A}B + AC$$
 
+
+**Representación de circuito digital resultante**
+
+
 ---
+
 
 #### Código en Verilog
 
@@ -304,3 +311,58 @@ Para visualizar la forma de onda de la simulación, se ejecuta el siguiente coma
 gtkwave build/primos_tb.vcd
 ```
 obteniendo asi el siguiente resultado:
+
+---
+
+![Gtk wave primos](./figs/primosgtk.png)
+
+---
+##  #2.3 parte 3 sumador de 1 Bit 
+
+Un sumador de 1 bit es un circuito combinacional que realiza la suma aritmética de tres bits de entrada: dos operandos ($A$ y $B$) y un acarreo de entrada ($C_{in}$). Entrega dos salidas: la suma ($S$) y el acarreo resultante de la operación ($C_{out}$).
+
+#### Análisis Teórico y Tabla de Verdad
+
+| Entrada $A$ | Entrada $B$ | Acarreo Ent. ($C_{in}$) | Suma ($S$) | Acarreo Sal. ($C_{out}$) |
+| :---: | :---: | :---: | :---: | :---: |
+| 0 | 0 | 0 | 0 | 0 |
+| 0 | 0 | 1 | 1 | 0 |
+| 0 | 1 | 0 | 1 | 0 |
+| 0 | 1 | 1 | 0 | 1 |
+| 1 | 0 | 0 | 1 | 0 |
+| 1 | 0 | 1 | 0 | 1 |
+| 1 | 1 | 0 | 0 | 1 |
+| 1 | 1 | 1 | 1 | 1 |
+
+#### Ecuaciones Booleanas por Mintérminos
+
+A partir de la tabla de verdad, deducimos las expresiones en **Suma de Productos (SOP)** para cada salida:
+
+1. **Ecuación para la Suma ($S$):**
+
+$$S(A, B, C_{in}) = \sum m(1, 2, 4, 7)$$
+
+$$S = \bar{A}\bar{B}C_{in} + \bar{A}B\bar{C}_{in} + A\bar{B}\bar{C}_{in} + ABC_{in}$$
+
+Simplificando mediante operaciones XOR ($\oplus$):
+
+$$S = A \oplus B \oplus C_{in}$$
+
+2. **Ecuación para el Acarreo de Salida ($C_{out}$):**
+
+$$C_{out}(A, B, C_{in}) = \sum m(3, 5, 6, 7)$$
+
+$$C_{out} = \bar{A}BC_{in} + A\bar{B}C_{in} + AB\bar{C}_{in} + ABC_{in}$$
+
+Simplificando mediante álgebra booleana:
+
+$$C_{out} = (A \oplus B)C_{in} + AB$$
+
+---
+
+#### Código en Verilog
+
+1. **Módulo Sumador (`sumador.v`)**
+```verilog
+// Pega aquí el código del módulo del sumador completo de 1 bit
+
