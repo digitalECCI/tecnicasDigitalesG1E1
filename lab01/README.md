@@ -9,8 +9,11 @@
 ## Índice
 1. [Introducción](#1-introducción)
 2. [Simulación](#2-simulación)
+   * [2.1 Parte 1: Compuertas Lógicas](#21-parte-1:-compuertas-lógicas)
+   * [2.2 Parte 2: Detector de Números Primos (3 bits)](#22-parte-2-detector-de-números-primos-3-bits)
+   * [2.3 Parte 3: Sumador Completo de 1 Bit](#23-parte-3-sumador-completo-de-1-bit)
 3. [Evidencias](#3-evidencias)
-4. [Guías interactivas](#4-guías-interactivas)
+4. [Guías Interactivas](#4-guías-interactivas)
 5. [Conclusiones](#5-conclusiones)
 6. [Referencias](#6-referencias)
 
@@ -23,7 +26,10 @@
 En este apartado se introducen los conceptos fundamentales de las **compuertas lógicas** y sus principios de funcionamiento. La comprensión de estos elementos teóricos es indispensable para validar y analizar las simulaciones de los circuitos digitales desarrolladas en las secciones posteriores de este laboratorio.
 de esta manera podemos encontrar las siguientes compuertas lógicas básicas, las cuales son la base de la lógica de todo circuito digital:
 
-![Compuertas Lógicas - Símbolos y Tablas de Verdad](https://github.com/user-attachments/assets/20d1d522-3ee2-472d-9aee-82ce33ca14d4)
+---
+
+![Compuertas Lógicas](./figs/compuertas.jpg)
+
 
 ---
 
@@ -53,7 +59,83 @@ Para la descripción e implementación digital en lenguajes de programación y d
 | **XOR** | $A \oplus B$ | `^` | `xor` |
 | **XNOR** | $\overline{A \oplus B}$ | `~(A ^ B)` | `xnor` |
 
+## 2. Simulación
 
+En este apartado se presenta la descripción en hardware mediante **Verilog** y la simulación funcional de los tres módulos requeridos.
 
+### 2.1 Parte 1: Compuertas Lógicas
+Se realiza la descripción en Verilog de las compuertas lógicas mediante **primitivas** y **descripción estructural/comportamental**, mediante el uso de un test bench y apoyo con gtk wave comprobando su comportamiento frente a las tablas de verdad correspondientes, descritas en la seccion de introduccion.
 
+1. **Módulo de Compuertas (`ejercicio2_.v`)**
+   
+```verilog
+module compuertas (
+input A,
+input B,
+output S1,
+output S2,
+output S3,
+output S4,
+output S5
+);
 
+and (S1, A, B);
+or (S2, A, B);
+not (S3, A);
+xor (S4, A, B);
+xnor (S5, A, B);
+endmodule
+```
+2. **Testbench (`ejercicio2_TB.v`)**
+```verilog
+`include "ejercicio2_.v"
+`timescale 1s/1s
+module compuertasTB(
+
+);
+
+reg A_TB;
+reg B_TB;
+wire S1_TB;
+wire S2_TB;
+wire S3_TB;
+wire S4_TB;
+wire S5_TB;
+
+compuertas uut (
+.A(A_TB),
+.B(B_TB),
+.S1(S1_TB),
+.S2(S2_TB),
+.S3(S3_TB),
+.S4(S4_TB),
+.S5(S5_TB)
+);
+
+initial begin
+//caso de prueba 1
+A_TB = 1'b0;
+B_TB = 1'b0;
+#5;
+//caso de prueba 2
+A_TB = 1'b0;
+B_TB = 1'b1;
+#5;  
+//caso de prueba 3
+A_TB = 1'b1;
+B_TB = 1'b0;
+#5;
+//caso de prueba 4
+A_TB = 1'b1;
+B_TB = 1'b1;
+#5;
+end
+
+initial begin: TEST_CASE
+$dumpfile("simulacion.vcd");
+$dumpvars(-1, uut);
+#25 $finish;
+end
+endmodule
+```
+   
