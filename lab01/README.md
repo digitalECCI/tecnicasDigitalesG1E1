@@ -66,6 +66,7 @@ En este apartado se presenta la descripción en hardware mediante **Verilog** y 
 ## #2.1 parte 1 compuertas lógicas
 Se realiza la descripción en Verilog de las compuertas lógicas mediante **primitivas** y **descripción estructural/comportamental**, mediante el uso de un test bench y apoyo con gtk wave comprobando su comportamiento frente a las tablas de verdad correspondientes, descritas en la seccion de introduccion.
 
+---
 1. **Módulo de Compuertas (`ejercicio2_.v`)**
    
 ```verilog
@@ -86,6 +87,7 @@ xor (S4, A, B);
 xnor (S5, A, B);
 endmodule
 ```
+---
 2. **Testbench (`ejercicio2_TB.v`)**
 ```verilog
 `include "ejercicio2_.v"
@@ -138,6 +140,7 @@ $dumpvars(-1, uut);
 end
 endmodule
 ```
+---
 #### Verificación y Resultados en GTKWave
 
 Para visualizar la forma de onda de la simulación, se ejecuta el siguiente comando en la terminal integrada de Visual Studio Code:
@@ -193,8 +196,10 @@ Alineando e identificando términos comunes para la simplificación booleana:
 
 $$P = \bar{A}B + AC$$
 
+---
 
-**Representación de circuito digital resultante**
+**Representación de circuito digital resultante:**
+
 
 
 ---
@@ -303,6 +308,7 @@ end
     end
 endmodule
 ```
+---
 #### Verificación y Resultados en GTKWave
 
 Para visualizar la forma de onda de la simulación, se ejecuta el siguiente comando en la terminal integrada de Visual Studio Code:
@@ -359,10 +365,33 @@ Simplificando mediante álgebra booleana:
 $$C_{out} = (A \oplus B)C_{in} + AB$$
 
 ---
+**Representación de circuito digital resultante:**
+
+![circuito_digital_sumador](./figs/sumador.jpg)
+
+---
 
 #### Código en Verilog
-
+---
 1. **Módulo Sumador (`sumador.v`)**
 ```verilog
-// Pega aquí el código del módulo del sumador completo de 1 bit
+// Cesar pega aquí el código del módulo del sumador de 1 bit (entre las tres comillas en el editor)
+```
+---
+2. **Testbench (`ejercicio2_TB.v`)**
+```verilog
+// Cesar pega aquí el código de el test bench del sumador de 1 bit(entre las tres comillas en el editor)
+```
+---
+#### Verificación y Resultados en GTKWave
 
+Para visualizar la forma de onda de la simulación, se ejecuta el siguiente comando en la terminal integrada de Visual Studio Code:
+
+```teminal
+// cesar aca va el que te genero de acuerdo a como lo definimos en el test bench
+gtkwave build/.vcd
+```
+obteniendo asi el siguiente resultado:
+
+
+---
