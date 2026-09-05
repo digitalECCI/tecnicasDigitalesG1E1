@@ -398,6 +398,6 @@ obteniendo asi el siguiente resultado:
 
 Para complementar la parte teórica y las simulaciones del laboratorio, puedes acceder a las guías interactivas y simuladores web a través del siguiente enlace:
 
-🌐 **[Acceder a las Guías Interactivas en Google Sites desde correo ECCI]([https://sites.google.com/view/tu-pagina-del-lab](https://sites.google.com/ecci.edu.co/guia-interactiva/inicio))**
+🌐 **[Acceder a las Guías Interactivas en Google Sites desde correo ECCI](https://sites.google.com/ecci.edu.co/guia-interactiva?usp=sharing)**
 ---
 
