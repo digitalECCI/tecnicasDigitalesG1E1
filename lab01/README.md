@@ -27,10 +27,7 @@ En este apartado se introducen los conceptos fundamentales de las **compuertas l
 de esta manera podemos encontrar las siguientes compuertas lógicas básicas, las cuales son la base de la lógica de todo circuito digital:
 
 ---
-
 ![Compuertas Lógicas](./figs/compuertas.jpg)
-
-
 ---
 
 ### 1.2 Clasificación y Descripción de Compuertas Lógicas
@@ -200,7 +197,7 @@ $$P = \bar{A}B + AC$$
 
 **Representación de circuito digital resultante:**
 
-
+![circuito_primos](./figs/primoscir.jpg)
 
 ---
 
