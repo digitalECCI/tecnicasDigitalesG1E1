@@ -138,4 +138,63 @@ $dumpvars(-1, uut);
 end
 endmodule
 ```
-   
+#### Verificación y Resultados en GTKWave
+
+Para visualizar la forma de onda de la simulación, se ejecuta el siguiente comando en la terminal integrada de Visual Studio Code:
+
+```teminal
+gtkwave build/simulacion.vcd
+```
+obteniendo asi el siguiente resultado:
+---
+
+![Gtk wave compuertas](./figs/gtkcompuertas.png)
+
+---
+### 2.2 Parte 2: Detector de Números Primos
+
+En esta sección se diseña e implementa un circuito combinacional capaz de detectar si un número binario de 3 bits ($N = ABC, rango de $0$ a $7$) corresponde a un número primo. 
+
+#### Análisis Teórico y Tabla de Verdad
+Considerando la secuencia de 3 bits, los números evaluados son: $0, 1, 2, 3, 4, 5, 6, 7$. Por definición, los números primos en este rango son **2, 3, 5 y 7**.
+
+| Entrada ($A B C$) | Valor Decimal | Es Primo? | Salida ($P$) |
+| :---: | :---: | :---: | :---: |
+| 000 | 0 | No | 0 |
+| 001 | 1 | No | 0 |
+| 010 | 2 | Sí | 1 |
+| 011 | 3 | Sí | 1 |
+| 100 | 4 | No | 0 |
+| 101 | 5 | Sí | 1 |
+| 110 | 6 | No | 0 |
+| 111 | 7 | Sí | 1 |
+
+#### Obtención de la Ecuación Booleana por Mintérminos
+
+A partir de la tabla de verdad, identificamos las combinaciones donde la salida $P = 1$ para expresar la función en su **Suma de Productos (SOP)** utilizando la notación de mintérminos ($\Sigma m$):
+
+$$Input(A, B, C) = \sum p(2, 3, 5, 7)$$
+
+Expandiendo cada mintérmino a partir de las variables de entrada:
+
+$$P = \bar{A}B\bar{C} + \bar{A}BC + A\bar{B}C + ABC$$
+
+Alineando e identificando términos comunes para la simplificación booleana:
+
+1. Factorizando $\bar{A}B$ de los primeros dos términos ($p_2$ y $p_3$):
+   $$\bar{A}B(\bar{C} + C) = \bar{A}B(1) = \bar{A}B$$
+
+2. Factorizando $AC$ de los últimos dos términos ($p_5$ y $p_7$):
+   $$AC(\bar{B} + B) = AC(1) = AC$$
+
+**Ecuación Simplificada Resultante:**
+
+$$P = \bar{A}B + AC$$
+
+---
+
+#### Código en Verilog
+
+1. **Módulo Detector de Primos (`primos.v`)**
+```verilog
+// Pega aquí el código del módulo del detector de números primos
