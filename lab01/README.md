@@ -392,3 +392,12 @@ obteniendo asi el siguiente resultado:
 
 
 ---
+## 4. Guías Interactivas
+
+## 4.1 Guía interactiva compuertas lógicas
+
+Para complementar la parte teórica y las simulaciones del laboratorio, puedes acceder a las guías interactivas y simuladores web a través del siguiente enlace:
+
+🌐 **[Acceder a las Guías Interactivas en Google Sites]([https://sites.google.com/view/tu-pagina-del-lab](https://sites.google.com/ecci.edu.co/guia-interactiva/inicio))**
+---
+
