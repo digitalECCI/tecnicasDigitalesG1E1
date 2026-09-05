@@ -197,4 +197,110 @@ $$P = \bar{A}B + AC$$
 
 1. **Módulo Detector de Primos (`primos.v`)**
 ```verilog
-// Pega aquí el código del módulo del detector de números primos
+
+module primos(
+    input A,
+    input B,
+    input C,
+    output P
+);
+
+ // Ecuación directa: P = (~A & B) | (A & C)
+wire not_a;
+    wire term1; // Guarda el resultado de (~A y B)
+    wire term2; // Guarda el resultado de (A y C)
+
+    // Compuertas
+assign P = (~A & B) | (A & C);
+
+endmodule
+
+```
+2. **Testbench (`primos_TB.v`)**
+```verilog
+`include "primos.v"
+`timescale 1s/1s
+
+module numeros_tb2(
+
+);
+reg A_TB;
+reg B_TB;
+reg C_TB;
+wire P_TB;
+
+primos uut (
+    .A(A_TB),
+    .B(B_TB),
+    .C(C_TB),
+    .P(P_TB)
+);
+
+
+    initial begin
+        // Inicializa las entradas
+        //PRIMO 0
+A_TB = 1'b0;
+    B_TB = 1'b0;
+    C_TB = 1'b0;
+    #5;
+
+    // Número 1 (P = 0)
+    A_TB = 1'b0;
+    B_TB = 1'b0;
+    C_TB = 1'b1;
+    #5;
+
+    // Número 2 - Primo (P = 1)
+    A_TB = 1'b0;
+    B_TB = 1'b1;
+    C_TB = 1'b0;
+    #5;
+
+    // Número 3 - Primo (P = 1)
+    A_TB = 1'b0;
+    B_TB = 1'b1;
+    C_TB = 1'b1;
+    #5;
+
+    // Número 4 (P = 0)
+    A_TB = 1'b1;
+    B_TB = 1'b0;
+    C_TB = 1'b0;
+    #5;
+
+    // Número 5 - Primo (P = 1)
+    A_TB = 1'b1;
+    B_TB = 1'b0;
+    C_TB = 1'b1;
+    #5;
+
+    // Número 6 (P = 0)
+    A_TB = 1'b1;
+    B_TB = 1'b1;
+    C_TB = 1'b0;
+    #5;
+
+    // Número 7 - Primo (P = 1)
+    A_TB = 1'b1;
+    B_TB = 1'b1;
+    C_TB = 1'b1;
+    #5;
+
+    // Finaliza la simulación
+end
+    initial begin:TEST_CASE
+    $dumpfile("primos_tb.vcd");
+    $dumpvars(-1, uut);
+    #100 $finish;
+    end
+endmodule
+```
+#### Verificación y Resultados en GTKWave
+
+Para visualizar la forma de onda de la simulación, se ejecuta el siguiente comando en la terminal integrada de Visual Studio Code:
+
+```teminal
+gtkwave build/primos_tb.vcd
+```
+obteniendo asi el siguiente resultado:
