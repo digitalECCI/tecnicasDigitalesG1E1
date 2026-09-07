@@ -3,7 +3,7 @@
 ## Integrantes
   * [Andres Mateo Arias Aguilera](https://github.com/mateoaeora124)
   * Gabriel Cangrejo
-  * Cesar Alberto Gomez
+  * [Cesar Alberto Gomez](https://github.com/Cesar7772026)
 ## informe
 
 ## Índice
