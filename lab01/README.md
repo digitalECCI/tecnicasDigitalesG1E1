@@ -441,6 +441,7 @@ gtkwave build/simulacion.vcd
 ```
 obteniendo asi el siguiente resultado:
 
+![simulacion_gtkwave_sumador](./figs/gtksumador.png)
 
 ---
 ## 4. Guías Interactivas
