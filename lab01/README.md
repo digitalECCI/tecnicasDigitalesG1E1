@@ -372,12 +372,63 @@ $$C_{out} = (A \oplus B)C_{in} + AB$$
 ---
 1. **Módulo Sumador (`sumador.v`)**
 ```verilog
-// Cesar pega aquí el código del módulo del sumador de 1 bit (entre las tres comillas en el editor)
+module Sumador_1bit (
+input A,
+input B,
+input Ci,
+output So,
+output Co
+);
+assign So = A ^ B ^ Ci;
+assign Co = (A & B) | (A & Ci) | (B & Ci);
+endmodule
 ```
 ---
 2. **Testbench (`ejercicio2_TB.v`)**
 ```verilog
-// Cesar pega aquí el código de el test bench del sumador de 1 bit(entre las tres comillas en el editor)
+`include "sumador.v"
+`timescale 1s / 1s
+
+module Sumador_1bit_tb(
+
+);
+
+    // 1. Entradas (reg) y salidas (wire)
+    reg A, B, Ci;
+    wire So, Co;
+
+    // 2. Instanciacion del modulo original
+    Sumador_1bit uut (
+        .A(A),
+        .B(B),
+        .Ci(Ci),
+        .So(So),
+        .Co(Co)
+    );
+
+    // 3. Bloque de estimulos (Tabla de verdad)
+    initial begin
+        $monitor("Tiempo = %0t | A=%b B=%b Ci=%b | Suma(So)=%b Acarreo(Co)=%b", 
+                 $time, A, B, Ci, So, Co);
+
+        // Probando las 8 combinaciones binarias
+        A = 0; B = 0; Ci = 0; #10; // 0 + 0 + 0 = 0 (Suma=0, Carry=0)
+        A = 0; B = 0; Ci = 1; #10; // 0 + 0 + 1 = 1 (Suma=1, Carry=0)
+        A = 0; B = 1; Ci = 0; #10; // 0 + 1 + 0 = 1 (Suma=1, Carry=0)
+        A = 0; B = 1; Ci = 1; #10; // 0 + 1 + 1 = 2 (Suma=0, Carry=1)
+        A = 1; B = 0; Ci = 0; #10; // 1 + 0 + 0 = 1 (Suma=1, Carry=0)
+        A = 1; B = 0; Ci = 1; #10; // 1 + 0 + 1 = 2 (Suma=0, Carry=1)
+        A = 1; B = 1; Ci = 0; #10; // 1 + 1 + 0 = 2 (Suma=0, Carry=1)
+        A = 1; B = 1; Ci = 1; #10; // 1 + 1 + 1 = 3 (Suma=1, Carry=1)
+
+    end
+    initial begin: TEST_CASE
+    $dumpfile("simulacion.vcd");
+    $dumpvars(-1, uut);
+#100$finish;
+
+    end
+endmodule
 ```
 ---
 #### Verificación y Resultados en GTKWave
@@ -386,7 +437,7 @@ Para visualizar la forma de onda de la simulación, se ejecuta el siguiente coma
 
 ```teminal
 // cesar aca va el que te genero de acuerdo a como lo definimos en el test bench
-gtkwave build/.vcd
+gtkwave build/simulacion.vcd
 ```
 obteniendo asi el siguiente resultado:
 
