@@ -2,7 +2,7 @@
 
 ## Integrantes
   * [Andres Mateo Arias Aguilera](https://github.com/mateoaeora124)
-  * Gabriel Cangrejo
+  * [Gabriel Cangrejo](https://github.com/gabriel11cangrejo).
   * [Cesar Alberto Gomez](https://github.com/Cesar7772026)
 ## informe
 
@@ -452,4 +452,16 @@ Para complementar la parte teórica y las simulaciones del laboratorio, puedes a
 
 🌐 **[Acceder a las Guías Interactivas en Google Sites desde correo ECCI](https://sites.google.com/ecci.edu.co/guia-interactiva?usp=sharing)**
 ---
+## 5. Conclusiones.
+
+1. Las compuertas lógicas son elementos fundamentales de la electrónica digital, ya que permiten realizar operaciones lógicas a partir de señales binarias. Compuertas como AND, OR, NOT, NAND, NOR, XOR y XNOR constituyen la base para el diseño y funcionamiento de circuitos digitales más complejos.
+
+2. Las tablas de verdad son una herramienta indispensable para analizar y comprobar el comportamiento de los circuitos lógicos. Mediante ellas es posible determinar la salida de un sistema para todas las combinaciones posibles de sus entradas, facilitando la identificación de errores y la verificación del funcionamiento esperado.
+
+3. El estudio de la lógica programable permite comprender cómo dispositivos como los FPGA y CPLD pueden ser configurados para implementar diferentes funciones y circuitos digitales. Esto representa una ventaja importante frente a los circuitos tradicionales, debido a la posibilidad de modificar o adaptar el funcionamiento del dispositivo mediante programación.
+
+4. La combinación de compuertas lógicas, tablas de verdad y dispositivos de lógica programable permite desarrollar sistemas digitales de mayor complejidad de una manera estructurada. Estos conceptos sirven como fundamento para aplicaciones relacionadas con sistemas embebidos, automatización, telecomunicaciones, control digital y procesamiento de señales.
+
+5. Finalmente, el análisis práctico de estos conceptos permite relacionar la teoría de la electrónica digital con su implementación real, fortaleciendo la capacidad para diseñar, simular y comprobar circuitos. El dominio de estos fundamentos resulta esencial para continuar con el estudio de tecnologías digitales más avanzadas, como microcontroladores, FPGA y sistemas electrónicos programables.
+
 
