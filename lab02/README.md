@@ -405,4 +405,40 @@ end
 
 endmodule
 ```
+### 3.2 Evidencias de Simulación
 
+La simulación genera las formas de onda correspondientes en el visor de datos temporales (GTKWave / ModelSim), permitiendo validar la correcta propagación de los acarreos intermedios y la obtención de la suma $S_o$ y el acarreo de salida $C_o$ conforme a la tabla de verdad.
+
+---
+
+## 4. Sustentación en Video
+
+El funcionamiento del sumador de 4 bits, la verificación de casos de prueba y la sustentación del laboratorio se encuentran explicados en el siguiente enlace:
+
+* **Video de Sustentación:** [Ver Video del Laboratorio en YouTube/Loom](https://link-del-video-aqui)
+
+---
+
+## 5. Guías Interactivas
+
+Para consultar recursos complementarios, guías interactivas y material de apoyo relacionado con la práctica, se dispone del siguiente enlace oficial:
+
+* **Guía Interactiva:** [Sumador de 4 Bits - Guía interactiva](https://sites.google.com/ecci.edu.co/4bits?usp=sharing)
+
+---
+
+## 6. Conclusiones
+
+A partir del desarrollo del circuito, la descripción en hardware mediante Verilog y los resultados obtenidos en el banco de pruebas, se establecen las siguientes conclusiones:
+
+1. **Modularidad y Escala en HDL:** La implementación jerárquica mediante la concatenación del módulo base `Sumador_1bit` permitió abstraer la complejidad del circuito `Sumador_4bit`. Esta metodología facilita la reutilización de código y la mantenibilidad del diseño en sistemas digitales de mayor escala.
+2. **Propagación del Acarreo (*Ripple Carry*):** Se verificó el funcionamiento de la topología de acarreo encascadado, comprobando cómo el acarreo de salida ($C_o$) de cada etapa actúa como el acarreo de entrada ($C_i$) del bit inmediatamente superior. Aunque introduce un retardo de propagación acumulativo, garantiza una estructura lógica simple y funcional.
+3. **Validación Exhaustiva mediante Testbench:** El banco de pruebas implementado permitió comprobar satisfactoriamente las 256 combinaciones posibles para los operandos $A[3:0]$ y $B[3:0]$, confirmando que las respuestas obtenidas en la señal de suma $S_o$ y acarreo final $C_o$ coinciden estrictamente con la tabla de verdad y el modelo matemático preestablecido.
+4. **Optimización mediante Estructuras de Control (`for`):** El uso de iteraciones mediante bucles `for` en el *Testbench* permitió automatizar y simplificar significativamente la verificación de los 256 casos de prueba de la tabla de verdad. Esto evitó el consumo excesivo de líneas de código de asignación manual, reduciendo el tiempo de desarrollo y la probabilidad de error en la estimulación de las señales.
+
+---
+
+## 7. Referencias
+
+* [1] M. M. Mano y M. D. Ciletti, *Digital Design: With an Introduction to the Verilog HDL, VHDL, and SystemVerilog*, 6th ed. Upper Saddle River, NJ, USA: Pearson, 2017.
+* [2] IEEE Standard Verilog Hardware Description Language, *IEEE Std 1364-2005*, 2006.
