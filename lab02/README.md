@@ -359,4 +359,50 @@ module Sumador_4bit (
 
 endmodule
 ```
+## 3. Simulación y Evidencias Para verificar el comportamiento funcional del sumador de 4 bits
+
+se implementó un entorno de simulación (Testbench) en Verilog que recorre mediante dos bucles anidados (for) las 256 combinaciones posibles entre los operandos A[3:0] y B[3:0] con un acarreo de entrada $C_i = 0$.3.1 Banco de Pruebas (Testbench)El código del banco de pruebas Sumador_4bit_tb asigna incrementalmente los valores a los vectores de entrada cada 10 unidades de tiempo ($10\,\text{s}$) y genera el archivo de ondas simu.vcd para su posterior inspección visual:
+
+```verilog
+`include "sumador_4_bit.v"
+`timescale 1s / 1s
+module Sumador_4bit_tb(
+
+);
+reg [3:0] A, B;
+reg Ci;
+wire [3:0] So;
+wire Co;
+
+Sumador_4bit uut (
+    .A(A),
+    .B(B),
+    .Ci(Ci),
+    .So(So),
+    .Co(Co)
+);
+integer i, j;
+
+
+initial begin
+    
+    for (i = 0; i < 16; i = i + 1) begin
+        for (j = 0; j < 16; j = j + 1) begin
+            A = i;
+            B = j;
+            Ci = 0;
+            #10;
+        end
+    end
+
+end
+
+    initial begin: TEST_CASE
+        $dumpfile("simu.vcd");
+        $dumpvars(-1, uut);
+        #20000 $finish;
+    end
+
+endmodule
+```
 
