@@ -408,7 +408,7 @@ endmodule
 ### 3.2 Evidencias de Simulación
 
 La simulación genera las formas de onda correspondientes en el visor de datos temporales (GTKWave / ModelSim), permitiendo validar la correcta propagación de los acarreos intermedios y la obtención de la suma $S_o$ y el acarreo de salida $C_o$ conforme a la tabla de verdad.
-
+![Simulacion](./figs2/gtk4bits.png)
 ---
 
 ## 4. Sustentación en Video
