@@ -21,7 +21,7 @@ Para extender la capacidad de suma a palabras binarias de mayor longitud, como e
 
 El esquema funcional y la conexión de acarreos intermedios ($C0, C1, C2$) entre cada módulo de 1 bit se ilustra en el siguiente diagrama de bloques:
 
-![Diagrama de Bloques](./figs/diagrama_bloques.png)
+![Diagrama de Bloques](./figs2/sumadorbits.jpg)
 
 ### 1.1 Tabla de Verdad
 
