@@ -415,7 +415,7 @@ La simulación genera las formas de onda correspondientes en el visor de datos t
 
 El funcionamiento del sumador de 4 bits, la verificación de casos de prueba y la sustentación del laboratorio se encuentran explicados en el siguiente enlace:
 
-* **Video de Sustentación:** [Ver Video del Laboratorio en YouTube/Loom](https://link-del-video-aqui)
+* **Video de Sustentación:** [Ver Video del Laboratorio en YouTube/Loom](https://youtube.com/shorts/ndBy6dNB8Ig?si=_TCGj1ZAktVJmAa3)
 
 ---
 
