@@ -158,7 +158,7 @@ module decod_7seg (
             // Lógica Ánodo Común: 0 = Encendido, 1 = Apagado
             4'd0:  seg = 7'b1000000; // Enciende a,b,c,d,e,f (apaga g)
             4'd1:  seg = 7'b1111001; // Enciende b,c
-            4'd2:  seg = 7 me0100100; // Enciende a,b,d,e,g
+            4'd2:  seg = 7 01010100; // Enciende a,b,d,e,g
             4'd3:  seg = 7'b0110000; // Enciende a,b,c,d,g
             4'd4:  seg = 7'b0011001; // Enciende b,c,f,g
             4'd5:  seg = 7'b0010010; // Enciende a,c,d,f,g
