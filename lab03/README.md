@@ -162,22 +162,7 @@ module Sumador_4bit (
 endmodule
 ```
 
-### 3.3 Módulo Multiplexor Auxiliar 2 a 1 de 4 Bits (`mux_2a1.v`)
-Módulo de conmutación de bus de datos de 4 bits:
-
-```verilog
-module mux_2a1 (
-    input  [3:0] in0,
-    input  [3:0] in1,
-    input        sel,
-    output [3:0] out
-);
-
-    assign out = (sel) ? in1 : in0;
-endmodule
-```
-
-### 3.4 Módulo Superior Integrador (`top_sum_7seg.v`)
+### 3.3 Módulo Superior Integrador (`top_sum_7seg.v`)
 Estructura jerárquica que conecta el sumador de 4 bits con el decodificador de 7 segmentos mediante la concatenación del acarreo de salida $C_o$ y la suma $S_o$ ($SalidaT = \{C_o, S_o\}$):
 
 ```verilog
