@@ -282,7 +282,9 @@ module top_sum_7seg_tb();
     end
 endmodule
 ```
-
+---
+![TB de sumador integrado](./figs3/tb_7seg.png)
+---
 ### 4.3 Análisis y Verificación de Resultados
 La compilación y simulación se llevaron a cabo utilizando las herramientas de software libre **Icarus Verilog** (`iverilog`) y **GTKWave**:
 
