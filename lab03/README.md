@@ -283,7 +283,7 @@ module top_sum_7seg_tb();
 endmodule
 ```
 ---
-![TB de sumador integrado](./figs3/tb_7seg.png)
+![TB de sumador integrado](./figs3/TB_4.png)
 ---
 ### 4.3 Análisis y Verificación de Resultados
 La compilación y simulación se llevaron a cabo utilizando las herramientas de software libre **Icarus Verilog** (`iverilog`) y **GTKWave**:
@@ -299,14 +299,17 @@ La compilación y simulación se llevaron a cabo utilizando las herramientas de 
 
 ---
 
-## 5. Sustentación en Video y Recursos Adicionales
+## 5. Sustentación en Video
 
-- **Video Demostración de Sustentación:** [Ver Video en YouTube](#)
-- **Página y Guía Interactiva del Laboratorio:** [Sitio Web Interactivo del Proyecto](#)
+- **Video Demostración de Sustentación con quartus y fpga 7 seg:** [[Ver Video en YouTube]](https://www.youtube.com/shorts/Tp3HDOIMkAE)
+- **Video Demostración de Sustentación con quartus y fpga, 7 seg y sumador:** [Ver Video en YouTube](https://www.youtube.com/shorts/-3djeQs5oJ8)
+
+---
+## 6. Aplicativo Interactivo
 
 ---
 
-## 6. Conclusiones
+## 7. Conclusiones
 
 1. **Diseño Modular Jerárquico:** La estructuración del proyecto en bloques independientes (`decod_7seg`, `Sumador_4bit` y `top_sum_7seg`) permitió verificar individualmente la lógica de decodificación antes de integrarla con los componentes aritméticos.
 2. **Interpretación y Formato de Lógica Invertida:** La correcta definición del patrón de bits en el decodificador garantiza la compatibilidad con dispositivos físicos de ánodo común, donde cada bit en `0` activa el respectivo diodo emisor de luz.
