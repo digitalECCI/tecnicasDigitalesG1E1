@@ -306,7 +306,10 @@ La compilación y simulación se llevaron a cabo utilizando las herramientas de 
 
 ---
 ## 6. Aplicativo Interactivo
-https://sites.google.com/ecci.edu.co/sumador7seg/sumador-7-seg
+Para consultar recursos complementarios, guías interactivas y material de apoyo relacionado con la práctica, se dispone del siguiente enlace oficial:
+
+* **Guía Interactiva:** [Sumador de 4 Bits - Guía interactiva](https://sites.google.com/ecci.edu.co/sumador7seg/sumador-7-seg)
+
 ---
 
 ## 7. Conclusiones
