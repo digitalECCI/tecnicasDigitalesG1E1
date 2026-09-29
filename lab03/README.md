@@ -238,7 +238,7 @@ module tb_decod_7seg();
 endmodule
 ```
 ---
-![TB de codificador 7 seg](./figs3/tb de 7seg.png)
+![TB de codificador 7 seg](./figs3/tb_7seg.png)
 ---
 ### 4.2 Testbench del Sistema Integrado (`top_sum_7seg_tb.v`)
 Banco de pruebas que recorre las 64 combinaciones posibles de entrada para el módulo `top_sum_7seg` mediante dos bucles anidados:
