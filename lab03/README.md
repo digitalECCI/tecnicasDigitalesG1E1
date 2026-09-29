@@ -306,7 +306,7 @@ La compilación y simulación se llevaron a cabo utilizando las herramientas de 
 
 ---
 ## 6. Aplicativo Interactivo
-
+https://sites.google.com/ecci.edu.co/sumador7seg/sumador-7-seg
 ---
 
 ## 7. Conclusiones
