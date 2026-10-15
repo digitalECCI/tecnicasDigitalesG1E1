@@ -74,3 +74,96 @@ Para visualizar múltiples dígitos (milésimas, centésimas, décimas y segundo
 1. Los buses de segmentos $seg[6:0]$ de todos los displays se conectan en paralelo a un único bus común.
 2. Las líneas de selección de ánodos de cada display ($an[3:0]$) se activan de manera secuencial e individual a una frecuencia superior a $60\text{ Hz}$ (típicamente entre $100\text{ Hz}$ y $1\text{ kHz}$).
 3. Gracias al efecto de la **persistencia retiniana** del ojo humano, la alternancia rápida crea la ilusión de que todos los displays están encendidos de forma continua sin parpadeo (*flicker*).
+---
+
+## 2. Código Hardware HDL en Verilog
+
+En esta sección se presentan las implementaciones en Verilog HDL de los módulos que componen la arquitectura del cronómetro y contador digital.
+
+### 2.1 Módulo Contador BCD de 4 Bits (`contador_bcd_4bits.v`)
+Este módulo representa la unidad secuencial básica del sistema. Se encarga de realizar la cuenta en formato BCD (de `0` a `9`) sincronizada por el flanco de subida de la señal de reloj (`posedge clk`). 
+
+Incluye un reinicio asíncrono/sincrónico mediante `rst`, una señal de habilitación de conteo (`enable`) y una salida de acarreo combinacional (`carry`) que permite encadenar múltiples dígitos en cascada (milésimas, centésimas, décimas y segundos):
+
+```verilog
+module contador_bcd_4bits (
+    input clk,
+    input rst,
+    input enable,
+    output reg [3:0] q,
+    output carry
+);
+
+    always @(posedge clk) begin
+        if (rst) begin
+            q <= 4'b0000;
+        end else if (enable) begin
+            if (q == 4'd9)
+                q <= 4'b0000;
+            else
+                q <= q + 1'b1; // Suma 1 en cada flanco cuando enable está activo
+        end
+    end
+
+    // Genera acarreo al siguiente dígito únicamente al llegar a 9 y estando habilitado
+    assign carry = enable && (q == 4'd9);
+
+endmodule
+```
+### 2.2 Módulo Divisor de Frecuencia Configurable (`divisor_frecuencia.v`)
+Este módulo parametriza la base de tiempo del sistema mediante la generación de un pulso de habilitación (*tick*) de duración igual a un ciclo de reloj. Utiliza el parámetro `SIMULATION` para escalar los divisores de frecuencia, permitiendo simulaciones rápidas en GTKWave o la síntesis exacta en FPGA sobre un oscilador base de $25\text{ MHz}$.
+
+A través del bus de selección `sel[1:0]`, el usuario o el sistema puede ajustar dinámicamente la velocidad del tiempo (escalas de $1\text{ ms}$, $10\text{ ms}$, $100\text{ ms}$ y $1\text{ s}$ en hardware real):
+
+```verilog
+module divisor_frecuencia #(
+    parameter SIMULATION = 1
+)(
+    input clk,
+    input rst,
+    input [1:0] sel,
+    output reg tick
+);
+
+    integer counter;
+    integer N;
+
+    // Asignación del valor N según sel y el modo de simulación
+    always @(*) begin
+        if (SIMULATION) begin
+            case (sel)
+                2'b00: N = 6;       // Modo rápido para simulación GTKWave
+                2'b01: N = 10;
+                2'b10: N = 20;
+                2'b11: N = 50;
+                default: N = 6;
+            endcase
+        end else begin
+            case (sel)
+                2'b00: N = 25_000;      // 1 ms a 25 MHz
+                2'b01: N = 250_000;     // 10 ms
+                2'b10: N = 2_500_000;   // 100 ms
+                2'b11: N = 25_000_000;  // 1 s
+                default: N = 25_000;
+            endcase
+        end
+    end
+
+    // Generación del pulso de 1 solo ciclo de reloj
+    always @(posedge clk or posedge rst) begin
+        if (rst) begin
+            counter <= 0;
+            tick    <= 0;
+        end else begin
+            if (counter >= N - 1) begin
+                counter <= 0;
+                tick    <= 1; // Pulso de 1 solo ciclo de reloj cuando se alcanza N-1
+            end else begin
+                counter <= counter + 1;
+                tick    <= 0; // Se mantiene en 0 durante el resto del conteo
+            end
+        end
+    end
+
+endmodule
+```
