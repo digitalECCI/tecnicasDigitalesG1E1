@@ -84,7 +84,7 @@ En esta sección se presentan las implementaciones en Verilog HDL de los módulo
 Este módulo representa la unidad secuencial básica del sistema. Se encarga de realizar la cuenta en formato BCD (de `0` a `9`) sincronizada por el flanco de subida de la señal de reloj (`posedge clk`). 
 
 Incluye un reinicio asíncrono/sincrónico mediante `rst`, una señal de habilitación de conteo (`enable`) y una salida de acarreo combinacional (`carry`) que permite encadenar múltiples dígitos en cascada (milésimas, centésimas, décimas y segundos):
-
+---
 ```verilog
 module contador_bcd_4bits (
     input clk,
@@ -110,11 +110,12 @@ module contador_bcd_4bits (
 
 endmodule
 ```
+---
 ### 2.2 Módulo Divisor de Frecuencia Configurable (`divisor_frecuencia.v`)
 Este módulo parametriza la base de tiempo del sistema mediante la generación de un pulso de habilitación (*tick*) de duración igual a un ciclo de reloj. Utiliza el parámetro `SIMULATION` para escalar los divisores de frecuencia, permitiendo simulaciones rápidas en GTKWave o la síntesis exacta en FPGA sobre un oscilador base de $25\text{ MHz}$.
 
 A través del bus de selección `sel[1:0]`, el usuario o el sistema puede ajustar dinámicamente la velocidad del tiempo (escalas de $1\text{ ms}$, $10\text{ ms}$, $100\text{ ms}$ y $1\text{ s}$ en hardware real):
-
+---
 ```verilog
 module divisor_frecuencia #(
     parameter SIMULATION = 1
@@ -163,7 +164,39 @@ module divisor_frecuencia #(
                 tick    <= 0; // Se mantiene en 0 durante el resto del conteo
             end
         end
+```
+---
+### 2.3 Módulo Decodificador BCD a 7 Segmentos (`decoder_7seg.v`)
+Este módulo combinacional puro traduce los dígitos BCD ($0 \rightarrow 9$) provenientes de los contadores hacia el bus de segmentos `$seg[6:0] = \{g, f, e, d, c, b, a\}$`. Está configurado para pantallas de **ánodo común** (lógica activa en bajo, donde `0` enciende el segmento y `1` lo apaga).
+
+Incluye anotaciones de equivalencia decimal y hexadecimal para facilitar la inspección de señales en bancos de pruebas mediante herramientas de simulación como GTKWave:
+---
+```verilog
+module decoder_7seg (
+    input [3:0] bcd,
+    output reg [6:0] seg // Segmentos: {g, f, e, d, c, b, a} (0 = Encendido, 1 = Apagado)
+);
+
+    always @(*) begin
+        case (bcd)
+            4'h0: seg = 7'b100_0000; // 0 (Decimal en GTKWave: 64  / Hex: 40)
+            4'h1: seg = 7'b111_1001; // 1 (Decimal en GTKWave: 121 / Hex: 79)
+            4'h2: seg = 7'b010_0100; // 2 (Decimal en GTKWave: 36  / Hex: 24)
+            4'h3: seg = 7'b011_0000; // 3 (Decimal en GTKWave: 48  / Hex: 30)
+            4'h4: seg = 7'b001_0011; // 4 (Decimal en GTKWave: 19  / Hex: 13)
+            4'h5: seg = 7'b001_0010; // 5 (Decimal en GTKWave: 18  / Hex: 12)
+            4'h6: seg = 7'b000_0010; // 6 (Decimal en GTKWave: 2   / Hex: 02)
+            4'h7: seg = 7'b111_1000; // 7 (Decimal en GTKWave: 120 / Hex: 78)
+            4'h8: seg = 7'b000_0000; // 8 (Decimal en GTKWave: 0   / Hex: 00)
+            4'h9: seg = 7'b001_0000; // 9 (Decimal en GTKWave: 16  / Hex: 10)
+            default: seg = 7'b111_1111; // Todos los segmentos apagados (Lógica activa en bajo)
+        endcase
+    end
+
+endmodule
     end
 
 endmodule
 ```
+---
+
