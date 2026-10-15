@@ -53,3 +53,24 @@ $$\text{Frecuencia Flujo Contador Extensión} = \frac{f_{\text{Entrada}}}{10}$$
 ---
 ![Contadores BCD en Cascada](figs/cascada.png)
 ---
+### 1.4 Divisor de Frecuencia por Contador Módulo N
+Las FPGAs disponen de osciladores de cristal integrados que generan señales de reloj de alta frecuencia (por ejemplo, $50\text{ MHz}$ o $100\text{ MHz}$). Para registrar intervalos temporales precisos como $1\text{ ms}$ ($1000\text{ Hz}$), es indispensable diseñar un **divisor de frecuencia**.
+
+Un divisor de frecuencia se implementa mediante un registro contador de paso de tamaño $k$ bits ($2^k \ge N$) con el valor límite $N$:
+
+$$N = \frac{f_{\text{FPGA}}}{f_{\text{Deseada}}}$$
+
+#### Ejemplo Matemático de Cómputo para $1\text{ ms}$:
+Para un reloj de entrada en la FPGA de $f_{\text{FPGA}} = 50\text{ MHz}$ y una frecuencia objetivo de $f_{\text{salida}} = 1000\text{ Hz}$ ($1\text{ ms}$):
+
+$$N = \frac{50 \times 10^6\text{ Hz}}{1000\text{ Hz}} = 50.000\text{ ciclos}$$
+
+El contador acumula del $0$ al $49.999$. Al alcanzar $N-1$, conmuta una señal de pulso habilitador de $1$ ciclo de reloj y reinicia la cuenta a $0$, logrando una base de tiempo exacta y sin fluctuación (*jitter*) para la medición del cronómetro.
+
+---
+
+### 1.5 Multiplexación Temporal de Displays de 7 Segmentos
+Para visualizar múltiples dígitos (milésimas, centésimas, décimas y segundos) sin utilizar una cantidad excesiva de pines de la FPGA, se utiliza la **multiplexación en el dominio del tiempo**:
+1. Los buses de segmentos $seg[6:0]$ de todos los displays se conectan en paralelo a un único bus común.
+2. Las líneas de selección de ánodos de cada display ($an[3:0]$) se activan de manera secuencial e individual a una frecuencia superior a $60\text{ Hz}$ (típicamente entre $100\text{ Hz}$ y $1\text{ kHz}$).
+3. Gracias al efecto de la **persistencia retiniana** del ojo humano, la alternancia rápida crea la ilusión de que todos los displays están encendidos de forma continua sin parpadeo (*flicker*).
