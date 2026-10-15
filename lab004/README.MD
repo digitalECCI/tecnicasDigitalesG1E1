@@ -33,4 +33,23 @@ Los Flip-Flops son las unidades biestables fundamentales capaces de almacenar $1
 - **Flip-Flop Tipo D (Data):** Transfiere el valor presente en la entrada $D$ a la salida $Q$ exactamente en el flanco activo del reloj ($\text{posedge CLK}$). Es la estructura predilecta para la síntesis de contadores y registros en FPGAs.
 - **Flip-Flop Tipo T (Toggle):** Conmuta el estado de su salida ($Q(t+1) = \overline{Q(t)}$) si la entrada $T=1$ al llegar el flanco de reloj.
 - **Flip-Flop SR y JK:** Estructuras conmutativas que permiten operaciones de activación ($\text{Set}$), desactivación ($\text{Reset}$) y conmutación ($\text{Toggle}$), evitando el estado indeterminado del SR clásico.
+---
+![Flip-Flop Tipo D y Tipo T](figs/flipflop.jpg)
+---
+#### 1.2.2 Registros de Datos y Desplazamiento
+Un registro es un arreglo n-dimensional de Flip-Flops sincronizados por la misma línea de reloj. En este laboratorio, los registros de almacenamiento permiten retener las cuentas BCD (*Binary-Coded Decimal*) correspondientes a las milésimas, centésimas, décimas y segundos.
 
+---
+
+### 1.3 Contadores Digitales y Codificación BCD (Binary-Coded Decimal)
+Un **contador digital** es un circuito secuencial estructurado por una cadena de Flip-Flops que recorre una secuencia binaria predeterminada de estados ante cada pulso de reloj.
+
+#### Contadores Módulo N y Cascada BCD (Módulo 10)
+Para representar de forma natural las fracciones de segundo y los segundos enteros en pantallas decimales, los contadores se configuran en código **BCD (Módulo 10)**, restringiendo la cuenta al rango $0 \rightarrow 9$ ($0000_2 \rightarrow 1001_2$). 
+
+Cuando un contador alcanza su valor máximo ($N-1 = 9$), genera una señal de acarreo de salida (*Carry Out / Enable Out*) que actúa como la señal de habilitación de conteo para la siguiente etapa de mayor jerarquía:
+
+$$\text{Frecuencia Flujo Contador Extensión} = \frac{f_{\text{Entrada}}}{10}$$
+---
+![Contadores BCD en Cascada](figs/cascada.png)
+---
