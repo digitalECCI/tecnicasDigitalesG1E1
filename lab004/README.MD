@@ -246,3 +246,155 @@ module cronometro_top (
 endmodule
 ```
 ---
+
+## 3. Bancos de Pruebas (Testbenches) y Simulación
+
+Para validar el correcto funcionamiento del cronómetro digital, la propagación de los acarreos BCD y la respuesta ante señales de reinicio, se diseñó un banco de pruebas en Verilog (`tb_cronometro.v`) que simula una señal de reloj de $25\text{ MHz}$ y monitorea la transición de los cuatro displays.
+
+### 3.1 Testbench Principal del Sistema (`tb_cronometro.v`)
+
+```verilog
+`timescale 1ns / 1ps
+`include "top.v"
+
+module tb_cronometro;
+
+    reg clk;
+    reg rst;
+    reg [1:0] sel;
+    wire [6:0] disp0, disp1, disp2, disp3;
+
+    // Instancia de la Unidad Bajo Prueba (UUT)
+    cronometro_top uut (
+        .clk(clk),
+        .rst(rst),
+        .sel(sel),
+        .disp0(disp0),
+        .disp1(disp1),
+        .disp2(disp2),
+        .disp3(disp3)
+    );
+
+    // Generación de Reloj de 25 MHz (Periodo T = 40 ns)
+    always #20 clk = ~clk;
+
+    initial begin
+        $dumpfile("cronometro.vcd");
+        $dumpvars(0, tb_cronometro);
+
+        clk = 0;
+        rst = 1;
+        sel = 2'b00; // Modo milésimas (tick cada N ciclos)
+
+        #100;
+        rst = 0; // Liberar reset e iniciar conteo
+
+        // Esperar tiempo suficiente para observar desbordamientos en digit0 y acarreos a digit1
+        #10_000_000;
+
+        // Prueba de reinicio dinámico (Reset en medio del funcionamiento)
+        rst = 1;
+        #80;
+        rst = 0;
+
+        #2_000_000;
+        $finish;
+    end
+
+endmodule
+```
+### 3.2 Testbench del Divisor de Frecuencia (`tb_divisor.v`)
+
+Para verificar de forma aislada la lógica del divisor de frecuencia y validar que la generación de la señal `tick` ocurra exactamente al cabo de $N$ ciclos de reloj (con una duración de un único periodo de reloj), se implementó un testbench dedicado utilizando el parámetro `#(.SIMULATION(1))`:
+
+```verilog
+`timescale 1ns / 1ps
+`include "divisor.v"
+
+module tb_divisor;
+
+    reg clk;
+    reg rst;
+    reg [1:0] sel;
+    wire tick;
+
+    // Instancia del divisor con parámetro de simulación rápida (SIMULATION = 1)
+    divisor_frecuencia #(.SIMULATION(1)) uut (
+        .clk(clk),
+        .rst(rst),
+        .sel(sel),
+        .tick(tick)
+    );
+
+    // Reloj con periodo T = 40 ns (20 ns en alto, 20 ns en bajo -> 25 MHz)
+    always #20 clk = ~clk;
+
+    initial begin
+        $dumpfile("divisor.vcd");
+        $dumpvars(0, tb_divisor);
+
+        clk = 0;
+        rst = 1;
+        sel = 2'b00; // Configuración N = 6 (Modo simulación rápida)
+
+        #50;
+        rst = 0; // Liberar reset
+
+        #600; // Tiempo suficiente para visualizar múltiples ciclos de pulso tick
+        $finish;
+    end
+
+endmodule
+```
+### 3.4 Testbench Integrador del Módulo Top (`top_tb.v`)
+
+Para verificar el comportamiento global del sistema integrado en condiciones de simulación continua, se diseñó el banco de pruebas `top_tb.v`. En esta prueba se fija el bus de selección en `sel = 2'b00` (modo de máxima velocidad de incremento) para evaluar la progresión continua de la cadena de contadores y la actualización síncrona de las salidas de 7 segmentos (`disp0` a `disp3`):
+
+```verilog
+`timescale 1ns / 1ps
+`include "top.v"
+
+module top_tb;
+
+    reg clk;
+    reg rst;
+    reg [1:0] sel;
+
+    wire [6:0] disp0;
+    wire [6:0] disp1;
+    wire [6:0] disp2;
+    wire [6:0] disp3;
+
+    // Instanciación del módulo Top
+    cronometro_top uut (
+        .clk(clk),
+        .rst(rst),
+        .sel(sel),
+        .disp0(disp0),
+        .disp1(disp1),
+        .disp2(disp2),
+        .disp3(disp3)
+    );
+
+    // Reloj de 25 MHz (Periodo T = 40 ns)
+    always #20 clk = ~clk;
+
+    initial begin
+        $dumpfile("cronometro_top.vcd");
+        $dumpvars(0, top_tb);
+
+        clk = 0;
+        rst = 1;
+        sel = 2'b00; // Mantener fijo en 2'b00 durante toda la simulación
+
+        #100;
+        rst = 0; // Liberar reset para iniciar el conteo integrado
+
+        // Simular tiempo extendido para verificar desbordamientos continuos
+        #2_500_000;
+
+        $finish;
+    end
+
+endmodule}
+```
