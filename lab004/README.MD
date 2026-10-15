@@ -199,4 +199,50 @@ endmodule
 endmodule
 ```
 ---
+### 2.4 Módulo Superior Integrador (`cronometro_top.v`)
+Este módulo representa la cúspide jerárquica del sistema. Integra el divisor de frecuencia configurable, una cadena de cuatro contadores BCD de 4 bits interconectados por acarreo (*ripple carry/enable chain*) y cuatro decodificadores de 7 segmentos independientes para cada uno de los dígitos.
 
+Permite realizar el conteo en un rango de `0000` a `9999` unidades, donde la escala temporal de incremento es controlada por el bus `sel[1:0]`:
+---
+```verilog
+`include "divisor.v"
+`include "Contador.v"
+`include "decod.v"
+
+module cronometro_top (
+    input clk,
+    input rst,
+    input [1:0] sel,
+    output [6:0] disp0, // Unidades / Milésimas
+    output [6:0] disp1, // Decenas / Centésimas
+    output [6:0] disp2, // Centenas / Décimas
+    output [6:0] disp3  // Millares / Segundos
+);
+
+    wire tick;
+    wire c0, c1, c2;
+    wire [3:0] q0, q1, q2, q3;
+
+    // Instancia del divisor de frecuencia
+    divisor_frecuencia div_inst (
+        .clk(clk),
+        .rst(rst),
+        .sel(sel),
+        .tick(tick)
+    );
+
+    // Cadena de 4 dígitos BCD en cascada (0000 a 9999)
+    contador_bcd_4bits digit0 (.clk(clk), .rst(rst), .enable(tick), .q(q0), .carry(c0));
+    contador_bcd_4bits digit1 (.clk(clk), .rst(rst), .enable(c0),   .q(q1), .carry(c1));
+    contador_bcd_4bits digit2 (.clk(clk), .rst(rst), .enable(c1),   .q(q2), .carry(c2));
+    contador_bcd_4bits digit3 (.clk(clk), .rst(rst), .enable(c2),   .q(q3), .carry());
+
+    // Decodificadores individuales de 7 segmentos para los displays
+    decoder_7seg dec0 (.bcd(q0), .seg(disp0));
+    decoder_7seg dec1 (.bcd(q1), .seg(disp1));
+    decoder_7seg dec2 (.bcd(q2), .seg(disp2));
+    decoder_7seg dec3 (.bcd(q3), .seg(disp3));
+
+endmodule
+```
+---
