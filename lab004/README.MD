@@ -398,3 +398,16 @@ module top_tb;
 
 endmodule}
 ```
+----
+![GTKWAVE CRONOMETRO](figs/image_2026-11-09_185815978.png)
+---
+## 4. Guías Interactivas
+
+## 4.1 Guía interactiva compuertas lógicas
+
+Para complementar la parte teórica y las simulaciones del laboratorio, puedes acceder a las guías interactivas y simuladores web a través del siguiente enlace:
+
+🌐 **[Acceder a las Guías Interactivas en Google Sites desde correo ECCI](https://sites.google.com/ecci.edu.co/simuladorfpgade10-lite?usp=sharing)**
+---
+## 5. Conclusiones.
+1. Integridad en la Asignación Física de Entradas/Salidas (Pin Planning)La correcta asignación de pines a través del archivo de restricciones de Quartus (.qsf) o la herramienta Pin Planner es fundamental para el funcionamiento del diseño en silicio real. Un mapeo erróneo de señales —como cruzar los pines de los interruptores de selección (SW0, SW1) con los segmentos o puntos decimales de los displays de 7 segmentos— invalida la respuesta del circuito integrado a pesar de que el código Verilog sea sintácticamente correcto.2. Acondicionamiento de Polaridad y Lógica de Hardware (Active-Low)En tarjetas de desarrollo como la Terasic DE10-Lite, los periféricos integrados como pulsadores (KEY0) y pantallas LED de 7 segmentos operan bajo lógica negativa o activa en bajo. La implementación de adaptadores lógicos explícitos (como la inversión del reset wire rst_n = ~rst;) y el diseño del decodificador adaptado a cátodo/ánodo común evitan problemas críticos como la congelación permanente por reset activo o la saturación visual (8888) en los displays.3. Sincronización y División de Frecuencia a 50 MHzPara adaptar la velocidad del oscilador principal de la tarjeta de desarrollo ($50\text{ MHz}$) a eventos perceptibles por el ojo humano (frecuencias de $1\text{ Hz}$ a $1\text{ kHz}$), es vital calcular con precisión el módulo de conteo ($N$). Asimismo, la generación de pulsos de habilitación (tick) con una duración de un único ciclo de reloj previene el sobreconteo y garantiza que los contadores BCD en cascada se propaguen únicamente en el instante deseado.4. Arquitectura Modular y Diseño Jerárquico en HDLLa estructura jerárquica del proyecto —dividida en un módulo divisor de frecuencia, cuatro contadores BCD de 4 bits y cuatro decodificadores de 7 segmentos interconectados en un módulo Top— demuestra las ventajas de la lógica digital modular en Verilog. Esta metodología facilita la detección de fallas, agiliza las pruebas unitarias en simulación y permite escalar el diseño a más dígitos o funciones adicionales sin reescribir la lógica base.5. Análisis de Tiempos y Restricciones EDA (Timing Constraints)La inclusión de archivos de restricciones de tiempo (.sdc) mediante Synopsys Design Constraints permite al Timing Analyzer de Quartus Prime evaluar las rutas críticas de propagación dentro de la FPGA respecto al reloj de $50\text{ MHz}$. Esto garantiza el cumplimiento de los tiempos de establecimiento (setup) y retención (hold), eliminando advertencias del compilador y asegurando la estabilidad del circuito sincronizado.
