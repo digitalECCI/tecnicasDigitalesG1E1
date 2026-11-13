@@ -320,7 +320,9 @@ module tb_traffic_light;
 
 endmodule
 ```
-
+----
+Resultado de simulacion en GTKWAVE
+![Simulación en GTKWave](figs/simusemaf.png)
 ---
 
 ### 3.2 Asignación de Pines para Síntesis en Intel Quartus Prime (`.qsf`)
