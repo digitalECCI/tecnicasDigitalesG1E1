@@ -370,7 +370,7 @@ set_location_assignment PIN_W8  -to buzzer       # Pin 6 GPIO (GPIO_[5])
 
 Para complementar la parte teórica, la simulación de máquinas de estado y los diagramas de tiempo en la FPGA, se puede acceder a la guía interactiva a través del siguiente enlace:
 
-🌐 **[Acceder a las Guías Interactivas en Google Sites desde correo ECCI](https://sites.google.com/ecci.edu.co/simuladorfpgade10-lite?usp=sharing)**
+🌐 **[Acceder a las Guías Interactivas en Google Sites desde correo ECCI](https://sites.google.com/ecci.edu.co/simuladorinteractivofsm?usp=sharing)**
 
 ---
 
