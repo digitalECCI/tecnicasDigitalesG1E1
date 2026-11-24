@@ -1128,7 +1128,7 @@ endmodule
 ```
 
 Resultado de simulación en GTKWave:
-![Simulación del sistema completo en GTKWave](figs/simu_caja_fuerte.png)
+![Simulación del sistema completo en GTKWave](figs/image_2026-11-23_200800018.png)
 
 ### 3.2 Testbench del PWM a Escala Real (`tb_pwm_servo.v`)
 
